@@ -1,17 +1,20 @@
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "./App.css";
+import Typography from "@mui/material/Typography";
 
 const theme = createTheme({
   typography: {
-    fontFamily: "IBM",
+    fontFamily: "IBM Arabic",
   },
 });
 
 const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <div className="App">App</div>;
-    </ThemeProvider>
+    <div className="App">
+      <ThemeProvider theme={theme}>
+        <Typography variant="h1">السلام عليكم</Typography>
+      </ThemeProvider>
+    </div>
   );
 };
 
