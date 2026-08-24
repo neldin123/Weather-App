@@ -19,12 +19,19 @@ const theme = createTheme({
   },
 });
 
+let cancelAxios = null;
+
 const App = () => {
   const [temp, setTemp] = useState({ currtemp: "", mintemp: "", maxtemp: "" });
   useEffect(() => {
     axios
       .get(
         "https://api.openweathermap.org/data/2.5/weather?lat=30.0444&lon=31.2357&appid=233d5e38f09205ccdbade87fef8add71",
+        {
+          cancelToken: new axios.CancelToken((c) => {
+            cancelAxios = c;
+          }),
+        },
       )
       .then((res) => {
         const currtemp = Math.floor(res.data.main.temp - 272.15);
@@ -32,7 +39,13 @@ const App = () => {
         const maxtemp = Math.floor(res.data.main.temp_max - 272.15);
         console.log(res.data);
         setTemp({ currtemp: currtemp, mintemp: mintemp, maxtemp: maxtemp });
-      });
+      })
+      .catch((err) => console.log(err));
+
+    return () => {
+      console.log("canceling");
+      cancelAxios();
+    };
   }, []);
   return (
     <div className="App">
