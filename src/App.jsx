@@ -12,6 +12,10 @@ import Button from "@mui/material/Button";
 
 // External Library
 import axios from "axios";
+import moment from "moment/moment";
+import "moment/locale/ar";
+
+moment.locale("ar");
 
 const theme = createTheme({
   typography: {
@@ -19,14 +23,24 @@ const theme = createTheme({
   },
 });
 
+const apiKey = import.meta.env.VITE_WEATHER_APP_KEY;
+
 let cancelAxios = null;
 
 const App = () => {
-  const [temp, setTemp] = useState({ currtemp: "", mintemp: "", maxtemp: "" });
+  // const dateAndTime = moment().format("MMMM Do YYYY, h:mm:ss a");
+  const [dateAndTime] = useState(() => moment().format("Do MMMM  YYYY"));
+  const [temp, setTemp] = useState({
+    currtemp: null,
+    mintemp: null,
+    maxtemp: null,
+    description: null,
+    icon: null,
+  });
   useEffect(() => {
     axios
       .get(
-        "https://api.openweathermap.org/data/2.5/weather?lat=30.0444&lon=31.2357&appid=233d5e38f09205ccdbade87fef8add71",
+        `https://api.openweathermap.org/data/2.5/weather?lat=30.0444&lon=31.2357&units=metric&appid=${apiKey}`,
         {
           cancelToken: new axios.CancelToken((c) => {
             cancelAxios = c;
@@ -34,11 +48,20 @@ const App = () => {
         },
       )
       .then((res) => {
-        const currtemp = Math.floor(res.data.main.temp - 272.15);
-        const mintemp = Math.floor(res.data.main.temp_min - 272.15);
-        const maxtemp = Math.floor(res.data.main.temp_max - 272.15);
+        const currtemp = Math.floor(res.data.main.temp);
+        const mintemp = Math.floor(res.data.main.temp_min);
+        const maxtemp = Math.floor(res.data.main.temp_max);
+        const description = res.data.weather[0].description;
+        const icon = res.data.weather[0].icon;
         console.log(res.data);
-        setTemp({ currtemp: currtemp, mintemp: mintemp, maxtemp: maxtemp });
+        console.log(icon);
+        setTemp({
+          currtemp: currtemp,
+          mintemp: mintemp,
+          maxtemp: maxtemp,
+          description: description,
+          icon: icon,
+        });
       })
       .catch((err) => console.log(err));
 
@@ -47,6 +70,7 @@ const App = () => {
       cancelAxios();
     };
   }, []);
+
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
@@ -83,7 +107,7 @@ const App = () => {
                     <Typography variant="h2" sx={{ fontWeight: "600" }}>
                       القاهرة
                     </Typography>
-                    <Typography variant="h4">23/6/2026</Typography>
+                    <Typography variant="h5">{dateAndTime}</Typography>
                   </div>
                 </div>
                 <hr />
@@ -96,12 +120,22 @@ const App = () => {
                   }}
                 >
                   <div>
-                    <div>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
                       <Typography variant="h1" sx={{ textAlign: "right" }}>
                         {temp.currtemp}
                       </Typography>
+                      <img
+                        src={`https://openweathermap.org/img/wn/${temp.icon}@2x.png`}
+                        alt={temp.description}
+                      />
                     </div>
-                    <Typography variant="h6">broken clouds</Typography>
+                    <Typography variant="h6">{temp.description}</Typography>
                     <div
                       style={{
                         display: "flex",
