@@ -2,5 +2,14 @@
   "Cairo": "القاهرة",
   "min": "الصغرى",
   "max": "الكبرى",
-  "عربي": "English"
+  "عربي": "English",
+  "clear sky": "سماء صافية",
+  "few clouds": "غيوم قليلة",
+  "scattered clouds": "سحب متفرقة",
+  "broken clouds": "غيوم متقطعة",
+  "shower rain": "زخات مطر",
+  "rain": "مطر",
+  "thunderstorm": "عاصفة رعدية",
+  "snow": "ثلج",
+  "mist": "ضباب خفيف"
 }

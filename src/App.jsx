@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/set-state-in-effect */
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "./App.css";
@@ -42,7 +41,7 @@ const App = () => {
   useEffect(() => {
     moment.locale("en");
     setDateAndTime(moment().format("Do MMMM  YYYY"));
-    i18n.changeLanguage("en");
+    // i18n.changeLanguage("en");
     axios
       .get(
         `https://api.openweathermap.org/data/2.5/weather?lat=30.0444&lon=31.2357&units=metric&appid=${apiKey}`,
@@ -81,13 +80,12 @@ const App = () => {
       i18n.changeLanguage("ar");
       setDirection("rtl");
       moment.locale("ar");
-      setDateAndTime(moment().format("Do MMMM  YYYY"));
     } else {
       i18n.changeLanguage("en");
       setDirection("ltr");
       moment.locale("en");
-      setDateAndTime(moment().format("Do MMMM  YYYY"));
     }
+    setDateAndTime(moment().format("Do MMMM  YYYY"));
   }
 
   return (
@@ -154,7 +152,11 @@ const App = () => {
                         alt={temp.description}
                       />
                     </div>
-                    <Typography variant="h6">{temp.description}</Typography>
+                    <Typography variant="h6">
+                      {temp.description
+                        ? t(temp.description.toLowerCase())
+                        : ""}
+                    </Typography>
                     <div
                       style={{
                         display: "flex",

@@ -2,5 +2,14 @@
   "القاهرة": "Cairo",
   "الصغرى": "Min",
   "الكبرى": "Max",
-  "English": "عربي"
+  "English": "عربي",
+  "clear sky": "clear sky",
+  "few clouds": "few clouds",
+  "scattered clouds": "scattered clouds",
+  "broken clouds": "broken clouds",
+  "shower rain": "shower rain",
+  "rain": "rain",
+  "thunderstorm": "thunderstorm",
+  "snow": "snow",
+  "mist": "mist"
 }
